@@ -1,4 +1,4 @@
-package com.shindohyun.template.security.controller;
+package com.shindohyun.template.security;
 
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.stereotype.Controller;

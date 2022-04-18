@@ -1,15 +1,22 @@
-package com.shindohyun.template.security.config;
+package com.shindohyun.template.security;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+  @Bean
+  public AccessDeniedHandler accessDeniedHandler() {
+    return new AccessDeniedHandlerImpl();
+  }
+
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     log.info("security config...");
@@ -33,9 +40,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     http.formLogin(); // 폼 기반 인증
 
-    // 접근 거부 처리자의 URI 지정
+    // 접근 거부 처리자 지정
     http.exceptionHandling()
-    .accessDeniedPage("/securityTest/accessError");
+    .accessDeniedHandler(accessDeniedHandler());
   }
 
   @Override
